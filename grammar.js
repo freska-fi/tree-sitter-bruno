@@ -14,13 +14,17 @@ module.exports = grammar({
       	$.meta,
       	$.http,
       	$.query,
+      	$.params,
       	$.headers,
+      	$.metadata,
       	$.auths,
       	$.bodies,
       	$.varsandassert,
       	$.script,
       	$.tests,
       	$.docs,
+      	$.example,
+      	$.settings,
 			)
 		)),
 
@@ -43,10 +47,26 @@ module.exports = grammar({
       "head",
       "connect",
       "trace",
+      "http",
+      "grpc",
+      "ws",
     ),
 
     query: $ => seq(
       alias("query", $.keyword),
+      $.dictionary,
+    ),
+
+    params: $ => choice(
+      $.params_query,
+      $.params_path,
+    ),
+    params_query: $ => seq(
+      alias("params:query", $.keyword),
+      $.dictionary,
+    ),
+    params_path: $ => seq(
+      alias("params:path", $.keyword),
       $.dictionary,
     ),
 
@@ -55,12 +75,26 @@ module.exports = grammar({
       $.dictionary,
     ),
 
+    metadata: $ => seq(
+      alias("metadata", $.keyword),
+      $.dictionary,
+    ),
+
     auths: $ => choice(
+      $.auth,
       $.authawsv4,
       $.authbasic,
       $.authbearer,
       $.authdigest,
+      $.authntlm,
+      $.authwsse,
+      $.authapikey,
       $.authoauth2,
+      $.authoauth2_additional,
+    ),
+    auth: $ => seq(
+      alias("auth", $.keyword),
+      $.dictionary,
     ),
     authawsv4: $ => seq(
       alias("auth:awsv4", $.keyword),
@@ -78,9 +112,35 @@ module.exports = grammar({
       alias("auth:digest", $.keyword),
       $.dictionary,
     ),
+    authntlm: $ => seq(
+      alias("auth:ntlm", $.keyword),
+      $.dictionary,
+    ),
+    authwsse: $ => seq(
+      alias("auth:wsse", $.keyword),
+      $.dictionary,
+    ),
+    authapikey: $ => seq(
+      alias("auth:apikey", $.keyword),
+      $.dictionary,
+    ),
     authoauth2: $ => seq(
       alias("auth:oauth2", $.keyword),
       $.dictionary,
+    ),
+    authoauth2_additional: $ => seq(
+      alias($.authoauth2_additional_keyword, $.keyword),
+      $.dictionary,
+    ),
+    authoauth2_additional_keyword: _ => choice(
+      "auth:oauth2:additional_params:auth_req:headers",
+      "auth:oauth2:additional_params:auth_req:queryparams",
+      "auth:oauth2:additional_params:access_token_req:headers",
+      "auth:oauth2:additional_params:access_token_req:queryparams",
+      "auth:oauth2:additional_params:access_token_req:body",
+      "auth:oauth2:additional_params:refresh_token_req:headers",
+      "auth:oauth2:additional_params:refresh_token_req:queryparams",
+      "auth:oauth2:additional_params:refresh_token_req:body",
     ),
 
     bodies: $ => choice(
@@ -91,6 +151,9 @@ module.exports = grammar({
       $.bodygraphql,
       $.bodygraphqlvars,
       $.bodyforms,
+      $.bodyfile,
+      $.bodygrpc,
+      $.bodyws,
       $.body,
     ),
     bodyforms: $ => choice(
@@ -132,6 +195,18 @@ module.exports = grammar({
     bodyformmultipart: $ => seq(
       alias("body:multipart-form", $.keyword),
       $.dictionary,
+    ),
+    bodyfile: $ => seq(
+      alias("body:file", $.keyword),
+      $.textblock,
+    ),
+    bodygrpc: $ => seq(
+      alias("body:grpc", $.keyword),
+      $.textblock,
+    ),
+    bodyws: $ => seq(
+      alias("body:ws", $.keyword),
+      $.textblock,
     ),
 
     varsandassert: $ => choice(
@@ -182,6 +257,16 @@ module.exports = grammar({
 			alias("docs", $.keyword),
 			$.textblock
 		),
+
+    example: $ => seq(
+      alias("example", $.keyword),
+      $.textblock,
+    ),
+
+    settings: $ => seq(
+      alias("settings", $.keyword),
+      $.dictionary,
+    ),
 
     textblock: $ => seq(
 			"{",
