@@ -23,7 +23,15 @@
             },
             {
               "type": "SYMBOL",
+              "name": "params"
+            },
+            {
+              "type": "SYMBOL",
               "name": "headers"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "metadata"
             },
             {
               "type": "SYMBOL",
@@ -48,6 +56,14 @@
             {
               "type": "SYMBOL",
               "name": "docs"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "example"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "settings"
             }
           ]
         }
@@ -127,6 +143,18 @@
         {
           "type": "STRING",
           "value": "trace"
+        },
+        {
+          "type": "STRING",
+          "value": "http"
+        },
+        {
+          "type": "STRING",
+          "value": "grpc"
+        },
+        {
+          "type": "STRING",
+          "value": "ws"
         }
       ]
     },
@@ -138,6 +166,55 @@
           "content": {
             "type": "STRING",
             "value": "query"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
+    "params": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "params_query"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "params_path"
+        }
+      ]
+    },
+    "params_query": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "params:query"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
+    "params_path": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "params:path"
           },
           "named": true,
           "value": "keyword"
@@ -166,9 +243,31 @@
         }
       ]
     },
+    "metadata": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "metadata"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
     "auths": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "auth"
+        },
         {
           "type": "SYMBOL",
           "name": "authawsv4"
@@ -187,7 +286,45 @@
         },
         {
           "type": "SYMBOL",
+          "name": "authntlm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "authwsse"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "authapikey"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "authoauth1"
+        },
+        {
+          "type": "SYMBOL",
           "name": "authoauth2"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "authoauth2_additional"
+        }
+      ]
+    },
+    "auth": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "auth"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
         }
       ]
     },
@@ -263,6 +400,78 @@
         }
       ]
     },
+    "authntlm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "auth:ntlm"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
+    "authwsse": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "auth:wsse"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
+    "authapikey": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "auth:apikey"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
+    "authoauth1": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "auth:oauth1"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
     "authoauth2": {
       "type": "SEQ",
       "members": [
@@ -278,6 +487,61 @@
         {
           "type": "SYMBOL",
           "name": "dictionary"
+        }
+      ]
+    },
+    "authoauth2_additional": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "authoauth2_additional_keyword"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
+    "authoauth2_additional_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "auth:oauth2:additional_params:auth_req:headers"
+        },
+        {
+          "type": "STRING",
+          "value": "auth:oauth2:additional_params:auth_req:queryparams"
+        },
+        {
+          "type": "STRING",
+          "value": "auth:oauth2:additional_params:access_token_req:headers"
+        },
+        {
+          "type": "STRING",
+          "value": "auth:oauth2:additional_params:access_token_req:queryparams"
+        },
+        {
+          "type": "STRING",
+          "value": "auth:oauth2:additional_params:access_token_req:body"
+        },
+        {
+          "type": "STRING",
+          "value": "auth:oauth2:additional_params:refresh_token_req:headers"
+        },
+        {
+          "type": "STRING",
+          "value": "auth:oauth2:additional_params:refresh_token_req:queryparams"
+        },
+        {
+          "type": "STRING",
+          "value": "auth:oauth2:additional_params:refresh_token_req:body"
         }
       ]
     },
@@ -311,6 +575,18 @@
         {
           "type": "SYMBOL",
           "name": "bodyforms"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bodyfile"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bodygrpc"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bodyws"
         },
         {
           "type": "SYMBOL",
@@ -490,6 +766,60 @@
         {
           "type": "SYMBOL",
           "name": "dictionary"
+        }
+      ]
+    },
+    "bodyfile": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "body:file"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "textblock"
+        }
+      ]
+    },
+    "bodygrpc": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "body:grpc"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "textblock"
+        }
+      ]
+    },
+    "bodyws": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "body:ws"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "textblock"
         }
       ]
     },
@@ -693,6 +1023,42 @@
         }
       ]
     },
+    "example": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "example"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "textblock"
+        }
+      ]
+    },
+    "settings": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "settings"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dictionary"
+        }
+      ]
+    },
     "textblock": {
       "type": "SEQ",
       "members": [
@@ -863,3 +1229,4 @@
   "inline": [],
   "supertypes": []
 }
+
