@@ -89,6 +89,7 @@ module.exports = grammar({
       $.authntlm,
       $.authwsse,
       $.authapikey,
+      $.authoauth1,
       $.authoauth2,
       $.authoauth2_additional,
     ),
@@ -122,6 +123,10 @@ module.exports = grammar({
     ),
     authapikey: $ => seq(
       alias("auth:apikey", $.keyword),
+      $.dictionary,
+    ),
+    authoauth1: $ => seq(
+      alias("auth:oauth1", $.keyword),
       $.dictionary,
     ),
     authoauth2: $ => seq(
